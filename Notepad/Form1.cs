@@ -24,6 +24,7 @@ namespace Notepad
         FontDialog fd = new FontDialog();
         dlgAboutBox dlgAbout = new dlgAboutBox();
         PrintPreviewDialog PrintPreview = new PrintPreviewDialog();
+        
 
 
 
@@ -32,7 +33,7 @@ namespace Notepad
             отменадействияToolStripMenuItem.Enabled = false;
             отменадействияToolStripMenuItem.Visible = false;
 
-            this.Text = "Блокнот";
+            this.Text = "Блокнот" + ofd.FileName;
             toolStripStatusLabel1.Text = "Готов, Начните вводить Текст...";
             richTextBox1.Multiline = true;
             richTextBox1.ContextMenuStrip = contextMenuStrip1;
@@ -40,14 +41,17 @@ namespace Notepad
 
         private void СохранитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            sfd.FileName = "Безымянный";
             sfd.Filter = "RTF Формат (*.rtf)|*.rtf|All files (*.*)|*.*";
             sfd.ShowDialog();
+
 
             richTextBox1.SaveFile(sfd.FileName, RichTextBoxStreamType.RichText);
         }
 
         private void СохранитькакToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            sfd.FileName = "Безымянный";
             sfd.Filter = "RTF Формат (*.rtf)|*.rtf|All files (*.*)|*.*";
             sfd.ShowDialog();
 
@@ -123,7 +127,9 @@ namespace Notepad
 
         private void ПоискToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            FindText(richTextBox1.Text);
+            
+            richTextBox1.Find(richTextBox1.Text);
+            //RichTextBoxFinds.None();
         }
 
         public bool FindText(string text)
@@ -144,6 +150,34 @@ namespace Notepad
             }
 
             return returnValue;
+        }
+
+        private void ОткрытьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+            ofd.Filter = "RTF Формат (*.rtf)|*.rtf|All files (*.*)|*.*";
+            ofd.ShowDialog();
+            richTextBox1.LoadFile(ofd.FileName, RichTextBoxStreamType.RichText);
+
+        }
+
+        private void СоздатьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //ofd.Filter = "RTF Формат (*.rtf)|*.rtf|All files (*.*)|*.*";
+            //ofd.ShowDialog();
+            //richTextBox1.LoadFile(ofd.FileName, RichTextBoxStreamType.RichText);
+
+            if (richTextBox1.TextLength == 0)
+            {
+                richTextBox1.Clear();
+            }
+            else
+            {
+                sfd.FileName = "Безымянный";
+                sfd.Filter = "RTF Формат (*.rtf)|*.rtf|All files (*.*)|*.*";
+                sfd.ShowDialog();
+
+            }
         }
     }
 }
